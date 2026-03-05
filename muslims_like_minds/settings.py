@@ -5,7 +5,7 @@ import dj_database_url # type: ignore
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'change-this'
 DEBUG = True
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["https://muslimslikeminds.onrender.com"]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -46,7 +46,11 @@ TEMPLATES = [{
 
 }]
 WSGI_APPLICATION = 'muslims_like_minds.wsgi.application'
-DATABASES = {'default': {'ENGINE':'django.db.backends.sqlite3','NAME': BASE_DIR/'db.sqlite3'}}
+
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'core/static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
