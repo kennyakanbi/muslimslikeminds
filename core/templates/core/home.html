@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="hero-section d-flex align-items-center text-white"
+  style="background:
+    linear-gradient(rgba(11,31,31,.85), rgba(11,31,31,.85)),
+    url('{% static 'images/home.png' %}') center/cover no-repeat;
+    min-height: 100vh;">
+
+  <div class="container text-center">
+    <h1 class="display-4 fw-bold mb-3" style="letter-spacing:1px;">
+      Muslims Like Minds
+    </h1>
+
+    <div class="mx-auto mb-4" style="width:80px;height:3px;background:var(--accent);"></div>
+
+    <p class="lead mb-4 text-light">
+      Strengthening faith, illuminating hearts, serving humanity.
+    </p>
+
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <a href="{% url 'core:about' %}"
+         class="btn btn-gold btn-lg px-4">
+        Discover Our Mission
+      </a>
+
+      <a href="{% url 'core:media' %}"
+         class="btn btn-outline-light btn-lg px-4">
+        Explore Media
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= ABOUT PREVIEW ================= -->
+<section class="py-5">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <h2 class="fw-bold mb-3">Who We Are</h2>
+        <p class="text-muted">
+          Muslims Like Minds is a community dedicated to strengthening faith,
+          spreading authentic Islamic knowledge, and serving humanity.
+        </p>
+        <a href="{% url 'core:about' %}" class="btn btn-outline-primary mt-2">Learn More</a>
+      </div>
+
+      <div class="col-lg-6 text-center">
+        <img src="{% static 'images/muslim.png' %}" class="img-fluid rounded shadow-sm" alt="Muslims Like Minds">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="calligraphy-watermark">
+  ﷽
+</div>
+<section class="py-5 text-center"
+         style="background:var(--primary); color:white;">
+  <div class="container">
+    <h5 class="mb-3" style="font-weight:300;">
+      “And whoever relies upon Allah – then He is sufficient for him.”
+    </h5>
+    <small>— Qur'an 65:3</small>
+  </div>
+</section>
+
+<!-- ================= LATEST TEACHINGS ================= -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Latest Teachings</h2>
+      <p class="text-muted">Grow in knowledge and understanding</p>
+    </div>
+
+    <div class="row g-4">
+      {% for teaching in latest_teaching %}
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          {% if teaching.image %}
+          <img src="{{ teaching.image.url }}" class="card-img-top" style="height:220px; object-fit:cover;" alt="{{ teaching.title }}">
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+            <h5>{{ teaching.title }}</h5>
+            <small class="text-muted mb-2">{{ teaching.created_at|date:"M d, Y" }}</small>
+            <p class="card-text">{{ teaching.description|truncatewords:20 }}</p>
+            <a href="{% url 'core:teaching_detail' teaching.pk %}" class="btn btn-dark mt-auto">Read Teaching</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center">
+        <p class="lead text-muted">No teachings yet.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="{% url 'core:teachings' %}" class="btn btn-outline-dark">View All Teachings</a>
+    </div>
+  </div>
+</section>
+
+</section>
+<!-- ================= TRENDING MEDIA ================= -->
+<section class="py-5">
+  <div class="container">
+
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Trending Media</h2>
+      <p class="text-muted">Most viewed content from our community</p>
+    </div>
+
+    <div class="row g-4">
+      {% for media in trending_media %}
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0 media-card">
+
+          {% if media.image %}
+          <img src="{{ media.image.url }}"
+               class="card-img-top"
+               style="height:220px; object-fit:cover;"
+               alt="{{ media.title }}">
+          {% endif %}
+
+          <div class="card-body d-flex flex-column">
+
+            <h6 class="fw-bold mb-2">{{ media.title }}</h6>
+
+            <!-- Media Type Badge -->
+            <span class="badge 
+                {% if media.media_type == 'video' %}bg-danger
+                {% elif media.media_type == 'audio' %}bg-success
+                {% else %}bg-primary{% endif %}
+                text-uppercase mb-2">
+                {{ media.media_type }}
+            </span>
+
+            <!-- Views -->
+            <small class="text-muted mb-3">
+              <i class="bi bi-eye"></i> {{ media.views }} views
+            </small>
+
+            <!-- Action Button -->
+            <a href="{% url 'core:media_detail' media.slug %}"
+               class="btn mt-auto 
+               {% if media.media_type == 'video' %}btn-outline-danger
+               {% elif media.media_type == 'audio' %}btn-outline-success
+               {% else %}btn-outline-primary{% endif %}">
+
+               {% if media.media_type == "video" %}
+                   Watch Video
+               {% elif media.media_type == "audio" %}
+                   Listen Audio
+               {% elif media.media_type == "graphic" %}
+                   View Graphic
+               {% endif %}
+            </a>
+
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center">
+        <p class="text-muted">No trending media yet.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- ================= UPCOMING EVENTS ================= -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Upcoming Events</h2>
+      <p class="text-muted">Stay connected with the community</p>
+    </div>
+
+    {% if upcoming_events %}
+    <div id="eventsCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for event in upcoming_events %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card shadow-sm">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                {% endif %}
+                <div class="card-body text-center">
+                  <h5>{{ event.title }}</h5>
+                  <p class="text-muted">{{ event.start_date|date:"M d, Y" }}</p>
+                  <p>{{ event.description|truncatewords:18 }}</p>
+                  <a href="{% url 'core:event_detail' event.pk %}" class="btn btn-outline-dark">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#eventsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#eventsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+    {% else %}
+      <p class="text-center text-muted">No upcoming events.</p>
+    {% endif %}
+
+    <div class="text-center mt-4">
+      <a href="{% url 'core:events' %}" class="btn btn-outline-primary">View All Events</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LATEST MEDIA ================= -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Latest Media</h2>
+      <p class="text-muted">Watch, listen, and benefit from our recent content</p>
+    </div>
+
+    <div class="row g-4">
+      {% for media in latest_media %}
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          {% if media.image %}
+          <img src="{{ media.image.url }}" class="card-img-top" loading="lazy"
+               style="height:220px; object-fit:cover;" alt="{{ media.title }}">
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ media.title }}</h5>
+            <span class="badge bg-secondary mb-2 text-uppercase">{{ media.media_type }}</span>
+          <button class="btn btn-outline-dark mt-auto open-media"
+        data-title="{{ media.title }}"
+        data-type="{{ media.media_type }}"
+       data-youtube-id="{{ media.get_youtube_id }}"
+        data-audio="{% if media.audio_file %}{{ media.audio_file.url }}{% endif %}"
+        data-image="{% if media.image %}{{ media.image.url }}{% endif %}">
+        
+
+    {% if media.media_type == "video" %}
+        ▶ Watch Now
+    {% elif media.media_type == "audio" %}
+        🎧 Listen Now
+    {% elif media.media_type == "graphic" %}
+        🖼 View Image
+    {% endif %}
+
+</button>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center">
+        <p class="lead text-muted">No media available at the moment.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="{% url 'core:media' %}" class="btn btn-outline-dark">View All Media</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEDIA MODAL ================= -->
+<div class="modal fade" id="mediaModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mediaModalTitle"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="mediaModalBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CALL TO ACTION ================= -->
+<section class="py-5 text-white"
+   style="background:var(--primary); color:white;">
+  <div class="container text-center">
+    <h3 class="fw-bold mb-3">Be Part of Something Meaningful</h3>
+    <p class="mb-4">
+      Join our journey in strengthening faith and uplifting the community.
+    </p>
+    <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg px-4">
+      Get Involved
+    </a>
+  </div>
+</section>
+
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.open-media').forEach(button => {
+  button.addEventListener('click', function () {
+
+    const type = this.dataset.type;
+    const youtubeId = this.dataset.youtubeId;
+    const audioUrl = this.dataset.audio;
+    const imageUrl = this.dataset.image;
+
+    let content = "";
+
+    if (type === "video" && youtubeId) {
+      content = `
+        <div class="ratio ratio-16x9">
+          <iframe 
+            src="https://www.youtube.com/embed/${youtubeId}?rel=0"
+            allowfullscreen>
+          </iframe>
+        </div>
+      `;
+    }
+
+    if (type === "audio" && audioUrl) {
+      content = `
+        <audio controls class="w-100">
+          <source src="${audioUrl}" type="audio/mpeg">
+        </audio>
+      `;
+    }
+
+    if (type === "graphic" && imageUrl) {
+      content = `
+        <img src="${imageUrl}" class="img-fluid rounded">
+      `;
+    }
+
+    document.getElementById("mediaModalBody").innerHTML = content;
+  });
+});
+
+</script>
+{% endblock %}
+
+{% endblock content %}

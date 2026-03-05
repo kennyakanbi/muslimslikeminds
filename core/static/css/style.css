@@ -1,0 +1,251 @@
+:root {
+  --primary: #0f3d3e;        /* Deep emerald */
+  --accent: #c9a227;         /* Gold */
+  --light-bg: #f8f5ef;       /* Soft cream */
+  --dark-bg: #0b1f1f;        /* Midnight green */
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--light-bg);
+}
+
+.section-title {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.btn-gold {
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  background-color: #b8921f;
+  transform: translateY(-2px);
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+.badge {
+  background-color: var(--primary);
+  font-weight: 500;
+}
+
+body{background:#f8faf9;}
+
+/* Sticky Navbar Custom */
+.navbar.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Optional: Change background when scrolling */
+.navbar.scrolled {
+  background-color: rgba(255,255,255,0.95) !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Navbar link spacing */
+.navbar-nav .nav-link {
+  margin-left: 15px;
+  font-weight: 500;
+}
+
+
+.navbar.bg-dark {
+  background-color: rgba(0,0,0,0.7) !important;
+}
+
+/* HERO SECTION */
+.hero-section {
+  position: relative;
+  height: 90vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* dark overlay for text readability */
+  color: white;
+  padding: 20px;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  max-width: 700px;
+  margin-bottom: 20px;
+}
+
+.hero-buttons a {
+  margin: 5px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 70vh;
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  .hero-buttons a {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+}
+
+/* HERO FADE-IN ANIMATION */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade {
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+}
+
+.delay-1 {
+  animation-delay: 0.5s;
+}
+
+.delay-2 {
+  animation-delay: 1s;
+}
+
+/* CARD HOVER EFFECT */
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* STICKY SOCIALS */
+.social-sticky {
+    position: fixed;
+    top: 40%;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.social-sticky a {
+    padding: 12px;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+}
+
+.social-sticky .facebook { background: #1877f2; }
+.social-sticky .twitter { background: #1da1f2; }
+.social-sticky .instagram { background: #e4405f; }
+
+.social-sticky a:hover {
+    opacity: 0.85;
+}
+
+/* PARALLAX HERO EFFECT */
+.parallax-hero {
+  background-attachment: fixed; /* subtle parallax */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 768px) {
+  .parallax-hero {
+    background-attachment: scroll;
+  }
+}
+
+.media-filters a.active {
+    font-weight: bold;
+    border-bottom: 2px solid #0d6efd;
+}
+
+.media-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.media-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* Smooth hover animation */
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+}
+
+/* Section spacing refinement */
+section {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+/* Button refinement */
+.btn {
+  border-radius: 50px;
+  font-weight: 500;
+}
+
+/* Cleaner badge */
+.badge {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+.calligraphy-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 180px;
+  color: rgba(255,255,255,0.05);
+  font-family: 'Amiri', serif;
+  pointer-events: none;
+}

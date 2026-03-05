@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="fw-bold mb-4">Community</h1>
+    <p>Share your thoughts, ideas, and questions with our community.</p>
+
+    <!-- Community Form -->
+    <div class="card mb-5 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Post a Message</h5>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-control" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Community Posts -->
+    <h3 class="mb-3">Recent Posts</h3>
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>{{ post.name }} <small class="text-muted">{{ post.created_at|date:"F j, Y H:i" }}</small></h6>
+                    <p>{{ post.message|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No posts yet. Be the first to share your thoughts!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

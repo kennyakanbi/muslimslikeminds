@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="py-5 text-white" style="background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url('{% static "images/hero.jpg" %}') center/cover no-repeat;">
+    <div class="container text-center">
+        <h1 class="fw-bold display-5">About Muslims Like Minds</h1>
+        <p class="lead mt-3">
+            A community of believers united by faith, knowledge, and service to humanity
+        </p>
+    </div>
+</section>
+
+<!-- About Overview -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-md-6">
+                <h2 class="fw-bold mb-3">Who We Are</h2>
+                <p>
+                    <strong>Muslims Like Minds</strong> is a faith-driven community dedicated to nurturing
+                    spiritual growth, authentic Islamic knowledge, and positive character among Muslims.
+                </p>
+                <p>
+                    We bring together believers of shared values and vision to learn, grow, and
+                    contribute meaningfully to society through teachings of Islam, media engagement,
+                    and service to humanity.
+                </p>
+                <p>
+                    Our mission is to embody the beauty of Islam through action, wisdom, and compassion
+                    in today’s modern world.
+                </p>
+            </div>
+
+            <div class="col-md-6 text-center">
+                <img src="{% static 'images/about.jpeg' %}" class="img-fluid rounded shadow" alt="Muslims Like Minds community">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission, Vision, Values -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-compass fs-1 text-dark mb-3"></i>
+                        <h5 class="fw-bold">Our Mission</h5>
+                        <p>
+                            To nurture faith, spread authentic Islamic knowledge, and inspire positive
+                            character through teaching, media, and community service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-eye fs-1 text-dark mb-3"></i>
+                        <h5 class="fw-bold">Our Vision</h5>
+                        <p>
+                            To build a united Muslim community that reflects the beauty of Islam
+                            and positively impacts society at large.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-heart fs-1 text-dark mb-3"></i>
+                        <h5 class="fw-bold">Our Values</h5>
+                        <p>
+                            Faith, sincerity, compassion, integrity, unity, and service to humanity.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What We Do -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">What We Do</h2>
+            <p class="text-muted">
+                Our activities are rooted in knowledge, media, and community service
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-book fs-1 mb-3 text-dark"></i>
+                        <h5 class="fw-bold">Islamic Teachings</h5>
+                        <p>
+                            We provide authentic Islamic teachings through lectures, classes,
+                            and educational content aimed at strengthening faith and understanding.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-camera-video fs-1 mb-3 text-dark"></i>
+                        <h5 class="fw-bold">Media & Outreach</h5>
+                        <p>
+                            Leveraging media to share beneficial knowledge, inspire positive change,
+                            and amplify meaningful Islamic narratives.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-people fs-1 mb-3 text-dark"></i>
+                        <h5 class="fw-bold">Community Service</h5>
+                        <p>
+                            We engage in humanitarian efforts and community projects that reflect
+                            Islam’s emphasis on compassion, charity, and service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call To Action -->
+<section class="py-5 bg-dark text-white">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-3">Join Our Community</h2>
+        <p class="mb-4">
+            Be part of a growing network of believers striving for knowledge, character,
+            and service to humanity.
+        </p>
+        <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">
+            Get Involved
+        </a>
+    </div>
+</section>
+
+{% endblock %}

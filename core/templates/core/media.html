@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- ================= MEDIA HEADER ================= -->
+<section class="py-5 bg-dark text-white">
+  <div class="container text-center">
+    <h1 class="fw-bold">Media Library</h1>
+    <p class="text-white-50">
+      Watch, listen, and view inspiring content
+    </p>
+  </div>
+</section>
+
+<!-- ================= MEDIA FILTER ================= -->
+<section class="py-4 border-bottom">
+  <div class="container text-center">
+    <div class="btn-group flex-wrap">
+
+      <a href="{% url 'core:media' %}"
+         class="btn btn-outline-dark {% if not selected_type %}active{% endif %}">
+        All
+      </a>
+
+      <a href="?type=video"
+         class="btn btn-outline-dark {% if selected_type == 'video' %}active{% endif %}">
+        Videos
+      </a>
+
+      <a href="?type=audio"
+         class="btn btn-outline-dark {% if selected_type == 'audio' %}active{% endif %}">
+        Audios
+      </a>
+
+      <a href="?type=graphic"
+         class="btn btn-outline-dark {% if selected_type == 'graphic' %}active{% endif %}">
+        Graphics
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURED MEDIA ================= -->
+{% if featured_media %}
+<section class="py-5 bg-light">
+  <div class="container">
+
+    <h3 class="fw-bold mb-4 text-center">Featured Media</h3>
+
+    <div class="row g-4">
+      {% for media in featured_media %}
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+
+          {% if media.image %}
+          <img src="{{ media.image.url }}"
+               class="card-img-top"
+               style="height:220px;object-fit:cover;"
+               alt="{{ media.title }}">
+          {% endif %}
+
+          <div class="card-body d-flex flex-column">
+            <h6 class="fw-bold">{{ media.title }}</h6>
+            <span class="badge bg-secondary mb-2 text-uppercase">
+              {{ media.media_type }}
+            </span>
+<button class="btn btn-outline-dark mt-auto open-media"
+        data-title="{{ media.title }}"
+        data-type="{{ media.media_type }}"
+        data-youtube-id="{{ media.get_youtube_id }}"
+        data-audio="{% if media.audio_file %}{{ media.audio_file.url }}{% endif %}"
+        data-image="{% if media.image %}{{ media.image.url }}{% endif %}">
+
+    {% if media.media_type == "video" %}
+        ▶ Watch Now
+    {% elif media.media_type == "audio" %}
+        🎧 Listen Now
+    {% elif media.media_type == "graphic" %}
+        🖼 View Image
+    {% endif %}
+
+</button>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+{% endif %}
+
+<!-- ================= MEDIA GRID ================= -->
+<section class="py-5">
+  <div class="container">
+
+    <div class="row g-4">
+      {% for media in page_obj %}
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+
+          {% if media.image %}
+          <img src="{{ media.image.url }}"
+               class="card-img-top"
+               style="height:220px;object-fit:cover;"
+               alt="{{ media.title }}">
+          {% endif %}
+
+          <div class="card-body d-flex flex-column">
+            <h6 class="fw-bold">{{ media.title }}</h6>
+
+            <span class="badge bg-secondary mb-2 text-uppercase">
+              {{ media.media_type }}
+            </span>
+
+            <small class="text-muted mb-2">
+              👁 {{ media.views }} views
+            </small>
+
+           <button class="btn btn-outline-dark mt-auto open-media"
+        data-title="{{ media.title }}"
+        data-type="{{ media.media_type }}"
+        data-youtube-id="{{ media.get_youtube_id }}"
+        data-audio="{% if media.audio_file %}{{ media.audio_file.url }}{% endif %}"
+        data-image="{% if media.image %}{{ media.image.url }}{% endif %}">
+    Watch / View
+</button>
+          </div>
+
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center">
+        <p class="lead text-muted">No media found.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- ================= PAGINATION ================= -->
+    {% if page_obj.has_other_pages %}
+    <nav class="mt-5">
+      <ul class="pagination justify-content-center">
+
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link"
+             href="?page={{ page_obj.previous_page_number }}{% if selected_type %}&type={{ selected_type }}{% endif %}">
+            Previous
+          </a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active">
+          <span class="page-link">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+          </span>
+        </li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link"
+             href="?page={{ page_obj.next_page_number }}{% if selected_type %}&type={{ selected_type }}{% endif %}">
+            Next
+          </a>
+        </li>
+        {% endif %}
+
+      </ul>
+    </nav>
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- ================= MEDIA MODAL ================= -->
+<div class="modal fade" id="mediaModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mediaModalTitle"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="mediaModalBody"></div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const modalEl = document.getElementById("mediaModal");
+  const modal = new bootstrap.Modal(modalEl);
+  const titleEl = document.getElementById("mediaModalTitle");
+  const bodyEl = document.getElementById("mediaModalBody");
+
+  document.querySelectorAll(".open-media").forEach(btn => {
+    btn.addEventListener("click", function () {
+      
+      const type = this.dataset.type || "";
+      const youtubeId = this.dataset.youtubeId || "";
+      const audioUrl = this.dataset.audio || "";
+      const imageUrl = this.dataset.image || "";
+
+      titleEl.textContent = this.dataset.title || "";
+      bodyEl.innerHTML = "<p class='text-center text-muted'>Media not available.</p>";
+
+      if (type === "video" && youtubeId.length === 11) {
+        bodyEl.innerHTML = `
+          <div class="ratio ratio-16x9">
+            <iframe 
+              src="https://www.youtube.com/embed/${youtubeId}?rel=0&autoplay=1" 
+              title="${this.dataset.title}" 
+              allowfullscreen>
+            </iframe>
+          </div>`;
+      }
+      else if (type === "audio" && audioUrl) {
+        bodyEl.innerHTML = `
+          <audio controls class="w-100" autoplay>
+            <source src="${audioUrl}" type="audio/mpeg">
+          </audio>`;
+      }
+      else if (type === "graphic" && imageUrl) {
+        bodyEl.innerHTML = `<img src="${imageUrl}" class="img-fluid rounded">`;
+      }
+
+      modal.show();
+    });
+  });
+
+  modalEl.addEventListener("hidden.bs.modal", () => {
+    bodyEl.innerHTML = ""; // stop video/audio when modal closes
+  });
+
+});
+</script>
+{% endblock %}
+
+{% endblock content %}

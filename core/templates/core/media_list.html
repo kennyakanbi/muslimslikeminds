@@ -1,0 +1,14 @@
+{% for media in media_list %}
+  <div class="media-card">
+    <a href="{% url 'media_detail' media.slug %}">
+      {% if media.image %}
+        <img src="{{ media.image.url }}" alt="{{ media.title }}">
+      {% endif %}
+      <h3>{{ media.title }}</h3>
+    </a>
+
+    <p>{{ media.views }} views</p>
+  </div>
+{% empty %}
+  <p>No media found.</p>
+{% endfor %}

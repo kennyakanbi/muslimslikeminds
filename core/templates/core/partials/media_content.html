@@ -1,0 +1,6 @@
+{% if media.media_type == "video" %}
+<div class="ratio ratio-16x9">
+  <iframe src="https://www.youtube.com/embed/{{ media.youtube_id }}"
+          allowfullscreen></iframe>
+</div>
+{% endif %}

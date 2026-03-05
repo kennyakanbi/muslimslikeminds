@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="py-5 bg-dark text-white">
+  <div class="container text-center">
+    <span class="badge bg-secondary text-uppercase mb-2">
+      {{ media.media_type }}
+    </span>
+
+    <h1 class="fw-bold mt-2">{{ media.title }}</h1>
+
+    <p class="text-white-50 small">
+      👁 {{ media.views }} views • {{ media.created_at|date:"F d, Y" }}
+    </p>
+  </div>
+</section>
+
+<!-- ================= MEDIA CONTENT ================= -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-lg-8">
+
+        <!-- VIDEO -->
+     {% if media.get_youtube_id %}
+<div class="ratio ratio-16x9 mb-4">
+    <iframe 
+        src="https://www.youtube.com/embed/{{ media.get_youtube_id }}"
+        title="{{ media.title }}"
+        allowfullscreen>
+    </iframe>
+</div>
+{% else %}
+    <p>No video available.</p>
+{% endif %}
+
+        <!-- AUDIO -->
+        {% if media.media_type == "audio" and media.audio_file %}
+        <div class="mb-4">
+          <audio controls class="w-100">
+            <source src="{{ media.audio_file.url }}" type="audio/mpeg">
+          </audio>
+
+          <div class="mt-3 text-center">
+            <a href="{{ media.audio_file.url }}"
+               download
+               class="btn btn-outline-primary">
+              ⬇ Download Audio
+            </a>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- GRAPHIC -->
+        {% if media.media_type == "graphic" and media.image %}
+        <div class="mb-4 text-center">
+          <img src="{{ media.image.url }}"
+               class="img-fluid rounded shadow"
+               alt="{{ media.title }}"
+               loading="lazy">
+        </div>
+        {% endif %}
+
+        <!-- DESCRIPTION -->
+        {% if media.description %}
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <h5 class="fw-bold mb-3">Description</h5>
+            <p class="mb-0">{{ media.description|linebreaks }}</p>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- SHARE -->
+        <div class="mb-5">
+          <h6 class="fw-bold">Share</h6>
+          <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-sm btn-outline-dark"
+               href="https://wa.me/?text={{ request.build_absolute_uri }}"
+               target="_blank">WhatsApp</a>
+
+            <a class="btn btn-sm btn-outline-dark"
+               href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}"
+               target="_blank">X / Twitter</a>
+
+            <a class="btn btn-sm btn-outline-dark"
+               href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+               target="_blank">Facebook</a>
+          </div>
+        </div>
+
+        <!-- RELATED MEDIA -->
+        {% if related_media %}
+        <hr class="my-5">
+
+        <h4 class="fw-bold mb-4">Related Media</h4>
+
+        <div class="row g-4">
+          {% for item in related_media %}
+          <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+
+              {% if item.image %}
+              <img src="{{ item.image.url }}"
+                   class="card-img-top"
+                   style="height:180px;object-fit:cover;"
+                   alt="{{ item.title }}">
+              {% endif %}
+
+              <div class="card-body d-flex flex-column">
+                <span class="badge bg-secondary text-uppercase mb-2">
+                  {{ item.media_type }}
+                </span>
+
+                <h6 class="card-title">{{ item.title }}</h6>
+
+                <a href="{% url 'core:media_detail' item.slug %}"
+                   class="btn btn-sm btn-outline-dark mt-auto">
+                  View Media
+                </a>
+              </div>
+
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- BACK -->
+        <div class="mt-5 text-center">
+          <a href="{% url 'core:media' %}" class="btn btn-outline-dark">
+            ← Back to Media Library
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,1 @@
+web: gunicorn Muslims_Like_Minds_FULL.wsgis
