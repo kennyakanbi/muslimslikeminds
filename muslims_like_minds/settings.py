@@ -5,7 +5,7 @@ import dj_database_url # type: ignore
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'change-this'
 DEBUG = True
-ALLOWED_HOSTS = [ALLOWED_HOSTS = ['muslimslikeminds.onrender.com']]
+ALLOWED_HOSTS = ['muslimslikeminds.onrender.com']
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
