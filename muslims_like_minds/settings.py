@@ -47,8 +47,11 @@ TEMPLATES = [{
 }]
 WSGI_APPLICATION = 'muslims_like_minds.wsgi.application'
 
+
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    'default': dj_database_url.parse(
+        os.environ.get("postgresql://muslims_user:xTwkXmuWhVgg73OzbKvGeqKHv4Q3ueFR@dpg-d6m2ptrh46gs73bd4jkg-a.oregon-postgres.render.com/muslims", "sqlite:///db.sqlite3")
+    )
 }
 
 STATIC_URL = '/static/'
