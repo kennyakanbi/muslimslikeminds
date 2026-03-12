@@ -10,15 +10,17 @@
         </div>
         
         <h1 class="fw-bold mb-3">{{ teaching.title }}</h1>
-        {% if teaching.image %}
-  <img src="{{ teaching.image.url }}"
-       class="img-fluid rounded mb-4"
-       alt="{{ teaching.title }}">
-{% endif %}
 
-        <div class="lead">
-            {{ teaching.content }}
-        </div>
+        {% if teaching.image %}
+       <img src="{{ teaching.image.url }}"
+     class="img-fluid rounded mb-4 blog-image"
+     alt="{{ teaching.title }}">
+        {% endif %}
+
+       <div class="article-content">
+    {{ teaching.content|linebreaks }}
+</div>
+
     </div>
 </section>
 
